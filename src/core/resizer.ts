@@ -268,6 +268,9 @@ export const createGridResizer = (
         resizeObserver._unobserve(el);
       };
     },
+    $reset() {
+      sizeCache.clear();
+    },
     $dispose: resizeObserver._dispose,
   };
 };

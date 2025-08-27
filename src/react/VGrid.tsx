@@ -89,8 +89,6 @@ const Cell = memo(
             top: top,
             [isRTLDocument() ? "right" : "left"]: left,
             visibility: hide ? "hidden" : "visible",
-            minHeight: height,
-            minWidth: width,
           };
           return style;
         }, [top, left, width, height, hide])}
@@ -149,6 +147,11 @@ export interface VGridHandle {
    * @param indexY vertical of item
    */
   getItemSize(indexX: number, indexY: number): [width: number, height: number];
+  /**
+   * Reset the cache of item sizes. Call this before changing cell width/height
+   * to support resizing.
+   */
+  resetSizeCache(): void;
   /**
    * Scroll to the item specified by index.
    * @param indexX horizontal index of item
@@ -379,6 +382,7 @@ export const VGrid = forwardRef<VGridHandle, VGridProps>(
         findEndIndex: () => [hStore.$findEndIndex(), vStore.$findEndIndex()],
         getItemOffset: (indexX, indexY) => [hStore.$getItemOffset(indexX), vStore.$getItemOffset(indexY)],
         getItemSize: (indexX, indexY) => [hStore.$getItemSize(indexX), vStore.$getItemSize(indexY)],
+        resetSizeCache: resizer.$reset,
         scrollToIndex: scroller.$scrollToIndex,
         scrollTo: scroller.$scrollTo,
         scrollBy: scroller.$scrollBy,
